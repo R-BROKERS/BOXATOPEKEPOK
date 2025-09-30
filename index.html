@@ -3,220 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест для трейдеров</title>
+    <title>Панель Мониторинга Вывода Средств (Демо)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #0d1a26;
+            --accent-color: #3b82f6; /* Blue */
+            --success-color: #10b981; /* Green */
+            --error-color: #ef4444; /* Red */
+            --warning-color: #f59e0b; /* Yellow/Amber */
+        }
         body {
-            background: linear-gradient(135deg, #1e40af, #60a5fa);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Arial', sans-serif;
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #e2e8f0; /* Slate 200 */
+            padding: 10px;
         }
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        .modal-content {
-            background: #fef3c7;
+        .card {
+            background-color: #1e293b; /* Slate 800 */
+            border-radius: 12px;
             padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 400px;
-            border: 2px solid #dc2626;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
         }
-        .quiz-container {
-            max-width: 600px;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.5s ease-in-out;
+        .status-pill {
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
         }
-        .result-container {
-            display: none;
-            text-align: center;
+        .log-entry {
+            font-family: monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            line-height: 1.4;
         }
-        .telegram-btn {
-            background: #0088cc;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
-            transition: background 0.3s ease;
+        .log-timestamp {
+            color: #94a3b8;
         }
-        .telegram-btn:hover {
-            background: #006b9e;
+        .log-system {
+            color: var(--accent-color);
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .log-warning {
+            color: var(--warning-color);
         }
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .log-success {
+            color: var(--success-color);
         }
-        .question {
-            background: #f3f4f6;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-        .submit-btn {
-            background: #16a34a;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            transition: background 0.3s ease;
-        }
-        .submit-btn:hover {
-            background: #15803d;
-        }
-        .warning {
-            color: #dc2626;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+        .flag-icon {
+            width: 20px;
+            height: 15px;
+            margin-right: 8px;
+            border-radius: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
     </style>
 </head>
 <body>
-    <!-- Модальное окно -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <h2 class="text-2xl font-bold text-red-600 mb-4">ВНИМАНИЕ!</h2>
-            <p class="warning">Тест должен быть пройден самостоятельно!</p>
-            <p class="warning">Не сворачивайте приложение и не используйте звонки или помощь!</p>
-            <p class="mb-4">Причина теста: Сумма выплаты в процессе зачисления с замороженного счета.</p>
-            <button id="startQuiz" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700">Начать тест</button>
+
+    <div class="max-w-xl mx-auto">
+        
+        <!-- Заголовок и данные клиента -->
+        <header class="text-center mb-6">
+            <h1 class="text-3xl font-extrabold text-white mb-1">ФИНАНСОВЫЙ МОНИТОРИНГ V.3.1</h1>
+            <p class="text-xs text-blue-400 uppercase tracking-widest">Абстрактная система учета и движения средств</p>
+        </header>
+
+        <!-- Блок клиента и суммы -->
+        <div class="card p-5">
+            <h2 class="text-xl font-bold mb-3 text-white">Профиль Заявки 495229</h2>
+            <div class="grid grid-cols-2 gap-y-2 text-sm">
+                <div class="text-slate-400">Клиент:</div>
+                <div class="font-semibold text-right text-white">Андрей Васильев</div>
+
+                <div class="text-slate-400">Сумма Выплаты (Цель):</div>
+                <div class="font-bold text-xl text-green-400 text-right">$3,287,385</div>
+
+                <div class="text-slate-400">Тип Операции:</div>
+                <div class="font-semibold text-right">Крипто/Фиат Вывод</div>
+
+                <div class="text-slate-400">Статус Клиента (Учет):</div>
+                <div class="font-semibold text-right">
+                    <span class="status-pill bg-red-600/30 text-red-400">
+                        НЕ ОБНАРУЖЕН (По адресу прописки)
+                    </span>
+                </div>
+            </div>
+            <p class="text-xs text-red-400 mt-4 text-center">
+                ТРЕБУЕТСЯ СРОЧНАЯ СВЯЗЬ С КОНСУЛЬТАНТОМ ДЛЯ ВЕРИФИКАЦИИ.
+            </p>
         </div>
+
+        <!-- Состояние Шлюзов (имитация) -->
+        <div class="card">
+            <h2 class="text-xl font-bold mb-3 text-white">СОСТОЯНИЕ ПРОЦЕССИНГОВЫХ ШЛЮЗОВ</h2>
+            <div class="space-y-3 text-sm">
+                <!-- Этап 1 -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Верификация клиента (KYC 2.0)</span>
+                    <span class="status-pill bg-green-600/30 text-green-400">УСПЕШНО</span>
+                </div>
+                <!-- Этап 2 -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Анализ Источника Средств (SoF)</span>
+                    <span class="status-pill bg-green-600/30 text-green-400">УСПЕШНО</span>
+                </div>
+                <!-- Этап 3 -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Комплаенс-контроль (AML/CFT)</span>
+                    <span class="status-pill bg-green-600/30 text-green-400">УСПЕШНО</span>
+                </div>
+                <!-- Этап 4 -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Мониторинг рисков (ISO-31000)</span>
+                    <span class="status-pill bg-amber-600/30 text-amber-400">ПРОВЕРКА</span>
+                </div>
+                <!-- Этап 5 (Блокирующий) -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Финансовый Гарант ($3,287,385)</span>
+                    <span class="status-pill bg-red-600/30 text-red-400">ОШИБКА АДРЕСА</span>
+                </div>
+                <!-- Этап 6 -->
+                <div class="flex justify-between items-center">
+                    <span class="text-slate-300">Финальный Клиринг (TARGET2 Network)</span>
+                    <span class="status-pill bg-slate-600/30 text-slate-400">ОЖИДАНИЕ</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- География и Нагрузка (имитация множества стран) -->
+        <div class="card">
+            <h2 class="text-xl font-bold mb-4 text-white">АКТИВНОСТЬ ПЛАТЕЖНЫХ ШЛЮЗОВ (ГЕО)</h2>
+            <div class="space-y-3 text-sm">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="flag-icon" src="https://placehold.co/20x15/0033A0/FFFFFF?text=RU" alt="Russian Flag"/>
+                        <span class="text-slate-300">SberPay Gate (RUS)</span>
+                    </div>
+                    <span class="text-amber-400">Нагрузка: 85%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="flag-icon" src="https://placehold.co/20x15/00247D/FFFFFF?text=GB" alt="UK Flag"/>
+                        <span class="text-slate-300">Barclays Clearing Hub (UK)</span>
+                    </div>
+                    <span class="text-green-400">Нагрузка: 32%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="flag-icon" src="https://placehold.co/20x15/DE2910/FFFFFF?text=CN" alt="China Flag"/>
+                        <span class="text-slate-300">Alipay Global Gateway (CHN)</span>
+                    </div>
+                    <span class="text-red-400">Нагрузка: 98%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <img class="flag-icon" src="https://placehold.co/20x15/2D8E36/FFFFFF?text=BR" alt="Brazil Flag"/>
+                        <span class="text-slate-300">Banco do Brasil (BRA)</span>
+                    </div>
+                    <span class="text-green-400">Нагрузка: 15%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Лог Операций в Реальном Времени -->
+        <div class="card">
+            <h2 class="text-xl font-bold mb-3 text-white">ЛОГ ОПЕРАЦИЙ В РЕАЛЬНОМ ВРЕМЕНИ</h2>
+            <div class="h-64 overflow-y-scroll bg-black p-3 border border-slate-700 rounded-lg">
+                <div class="log-entry"><span class="log-timestamp">[12:28:01]</span> <span class="log-system">SYSTEM:</span> Запуск мониторинга клиента <span class="text-white">Андрей Васильев</span>.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:05]</span> <span class="log-system">GATEWAY-RU:</span> Попытка маршрутизации $3,287,385 RUB.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:12]</span> <span class="log-warning">ALERT:</span> Геолокация клиента не совпадает с KYC-адресом. <span class="text-red-400">FLAG RAISED [GEO-MISMATCH]</span>.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:15]</span> <span class="log-system">COMPLIANCE:</span> Перенаправление заявки в ручной режим верификации.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:22]</span> <span class="log-system">GUARANTOR-SVC:</span> Запрос подтверждения адреса клиента. Статус: <span class="text-red-400">ОШИБКА</span>.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:25]</span> <span class="log-system">BROKER-SVC:</span> Автоматическое уведомление <span class="text-blue-400">Условный Брокер</span>.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:30]</span> <span class="log-warning">WARNING:</span> Время ожидания клиринга истекает.</div>
+                <div class="log-entry"><span class="log-timestamp">[12:28:40]</span> <span class="log-success">HEARTBEAT:</span> Система в рабочем режиме, ожидание действия пользователя.</div>
+            </div>
+        </div>
+
+        <!-- Контакт и призыв (имитация связи с брокером) -->
+        <div class="card p-5 border-yellow-500 border-2">
+            <h2 class="text-xl font-bold mb-3 text-yellow-400 text-center">ПРОЦЕСС ОСТАНОВЛЕН</h2>
+            <p class="text-center text-lg mb-4">Для разблокировки заявки $3,287,385 и подтверждения статуса **Андрей Васильев**, пожалуйста, **немедленно свяжитесь** с ответственным консультантом.</p>
+            
+            <div class="text-center">
+                <a href="https://t.me/rostov_broker_ru" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300">
+                    СВЯЗАТЬСЯ С БРОКЕРОМ-КОНСУЛЬТАНТОМ (Telegram)
+                </a>
+            </div>
+            <p class="text-xs text-slate-400 mt-4 text-center">
+                Ответственный оператор: <span class="text-white font-semibold">Условный Жирный Брокер</span>
+            </p>
+        </div>
+
     </div>
 
-    <!-- Контейнер теста -->
-    <div id="quizContainer" class="quiz-container hidden">
-        <h1 class="text-4xl font-bold text-center text-blue-800 mb-6">Тест для трейдеров</h1>
-        <p id="userInfo" class="text-center text-lg mb-4"></p>
-        <p class="text-center text-gray-600 mb-6">Пройдите тест, чтобы подтвердить свои знания!</p>
-        <form id="quizForm">
-            <div class="question">
-                <p class="font-semibold">1. Что такое рыночная капитализация?</p>
-                <label><input type="radio" name="q1" value="a"> Общая стоимость акций компании</label><br>
-                <label><input type="radio" name="q1" value="b"> Долг компании</label><br>
-                <label><input type="radio" name="q1" value="c"> Годовая прибыль</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">2. Что такое стоп-лосс?</p>
-                <label><input type="radio" name="q2" value="a"> Приказ на покупку акций</label><br>
-                <label><input type="radio" name="q2" value="b"> Ограничение убытков</label><br>
-                <label><input type="radio" name="q2" value="c"> Тип дивидендов</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">3. Что такое ETF?</p>
-                <label><input type="radio" name="q3" value="a"> Биржевой фонд</label><br>
-                <label><input type="radio" name="q3" value="b"> Тип облигации</label><br>
-                <label><input type="radio" name="q3" value="c"> Криптовалюта</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">4. Как называется график цен актива?</p>
-                <label><input type="radio" name="q4" value="a"> Свечной график</label><br>
-                <label><input type="radio" name="q4" value="b"> Линейный код</label><br>
-                <label><input type="radio" name="q4" value="c"> Точечная диаграмма</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">5. Что такое диверсификация?</p>
-                <label><input type="radio" name="q5" value="a"> Инвестирование в один актив</label><br>
-                <label><input type="radio" name="q5" value="b"> Распределение средств по разным активам</label><br>
-                <label><input type="radio" name="q5" value="c"> Покупка акций одной компании</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">6. Что такое P/E ratio?</p>
-                <label><input type="radio" name="q6" value="a"> Отношение прибыли к убыткам</label><br>
-                <label><input type="radio" name="q6" value="b"> Отношение цены акции к прибыли</label><br>
-                <label><input type="radio" name="q6" value="c"> Процент дивидендов</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">7. Что такое маржинальная торговля?</p>
-                <label><input type="radio" name="q7" value="a"> Торговля с заемными средствами</label><br>
-                <label><input type="radio" name="q7" value="b"> Торговля без комиссии</label><br>
-                <label><input type="radio" name="q7" value="c"> Долгосрочные инвестиции</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">8. Что такое "бычий рынок"?</p>
-                <label><input type="radio" name="q8" value="a"> Рынок с падающими ценами</label><br>
-                <label><input type="radio" name="q8" value="b"> Рынок с растущими ценами</label><br>
-                <label><input type="radio" name="q8" value="c"> Рынок с низкой волатильностью</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">9. Что такое ликвидность?</p>
-                <label><input type="radio" name="q9" value="a"> Способность актива быстро продаваться</label><br>
-                <label><input type="radio" name="q9" value="b"> Долгосрочная стабильность актива</label><br>
-                <label><input type="radio" name="q9" value="c"> Процентная ставка</label>
-            </div>
-            <div class="question">
-                <p class="font-semibold">10. Что такое дивиденды?</p>
-                <label><input type="radio" name="q10" value="a"> Выплаты акционерам из прибыли</label><br>
-                <label><input type="radio" name="q10" value="b"> Налог на акции</label><br>
-                <label><input type="radio" name="q10" value="c"> Заемные средства</label>
-            </div>
-            <button type="submit" class="submit-btn">Завершить тест</button>
-        </form>
-    </div>
-
-    <!-- Контейнер результата -->
-    <div id="resultContainer" class="quiz-container result-container">
-        <h1 class="text-4xl font-bold text-center text-blue-800 mb-6">Результат теста</h1>
-        <p id="resultText" class="text-lg text-center mb-6"></p>
-        <a href="https://t.me/rostov_broker_ru" class="telegram-btn">Связаться с Биржевым Маклером (@rostov_broker_ru)</a>
-    </div>
-
-    <script>
-        // Извлечение параметров из URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const firstName = urlParams.get('firstName') || 'Не указано';
-        const lastName = urlParams.get('lastName') || 'Не указано';
-        const amount = urlParams.get('amount') || '0';
-
-        // Отображение информации о пользователе
-        document.getElementById('userInfo').textContent = `Тестируемый: ${firstName} ${lastName}, Сумма выплаты: ${amount} руб.`;
-
-        // Показать модальное окно при загрузке
-        const modal = document.getElementById('modal');
-        const quizContainer = document.getElementById('quizContainer');
-        const startQuizBtn = document.getElementById('startQuiz');
-        modal.style.display = 'flex';
-
-        // Начать тест
-        startQuizBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-            quizContainer.classList.remove('hidden');
-        });
-
-        // Обработка отправки формы
-        document.getElementById('quizForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            quizContainer.classList.add('hidden');
-            const resultContainer = document.getElementById('resultContainer');
-            resultContainer.style.display = 'block';
-            document.getElementById('resultText').textContent = `Уважаемый ${firstName} ${lastName}, к сожалению, вы дали ответ всего на 3 вопроса, тест провален. Чтобы получить выплату до 14 сентября, обратитесь к Биржевому Маклеру для подачи списков проваливших тестирование.`;
-        });
-
-        // Предупреждение при попытке сворачивания
-        window.addEventListener('blur', () => {
-            alert('ВНИМАНИЕ: Не сворачивайте приложение во время теста! Это может повлиять на зачисление выплаты.');
-        });
-    </script>
 </body>
 </html>
+
